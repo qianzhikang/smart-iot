@@ -33,6 +33,10 @@ public class User implements Serializable {
      * 密码
      */
     private String password;
+    /**
+     * 盐
+     */
+    private String salt;
 
     /**
      * 性别 0:男 1:女

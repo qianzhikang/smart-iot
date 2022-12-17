@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 public class LoginDto {
-    @Pattern(regexp = "/^1((34[0-8])|(8\\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\\d{1}))\\d{7}$/\n",message = "手机号码格式不正确")
+    @Pattern(regexp = "0?(13|14|15|17|18)[0-9]{9}",message = "手机号码格式不正确")
     private String phone;
     @NotBlank(message = "密码不能为空")
     private String password;
