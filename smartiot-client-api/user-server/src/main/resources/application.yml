@@ -5,11 +5,25 @@ server:
 
 
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 12345678
     url: jdbc:mysql://localhost:3306/db_smart_iot
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000      #连接超时，单位毫秒
+    lettuce:
+      pool:
+        max-active: 8  #连接池最大连接数（使用负数表示没有限制） 默认为 8
+        max-wait: -1   #连接池最大等待时间（使用负数表示没有限制） 默认-1
+        max-idle: 8    #连接池最大空闲链接 默认为 8
+        min-idle: 0     #连接池中最小空闲链接 默认0
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
@@ -17,5 +31,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 
 #debug: true

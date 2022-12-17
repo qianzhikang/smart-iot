@@ -22,7 +22,7 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping("/login")
+    @PostMapping("/register")
     public RestResult<Object> register(@Valid @RequestBody RegisterDto registerDto){
         return userService.addUser(registerDto);
     }
