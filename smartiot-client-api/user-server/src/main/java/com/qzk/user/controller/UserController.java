@@ -2,6 +2,7 @@ package com.qzk.user.controller;
 
 import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.dto.LoginDto;
+import com.qzk.user.domain.dto.RegisterDto;
 import com.qzk.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,12 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+
+    @PostMapping("/login")
+    public RestResult<Object> register(@Valid @RequestBody RegisterDto registerDto){
+        return userService.addUser(registerDto);
+    }
 
     /**
      * 登陆接口

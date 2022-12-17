@@ -2,6 +2,7 @@ package com.qzk.user.service;
 
 import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.dto.LoginDto;
+import com.qzk.user.domain.dto.RegisterDto;
 import com.qzk.user.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,4 +19,11 @@ public interface UserService extends IService<User> {
      * @return result
      */
     RestResult<Object> login(LoginDto loginDto);
+
+    /**
+     * 用户注册
+     * @param registerDto 注册信息
+     * @return result
+     */
+    RestResult<Object> addUser(RegisterDto registerDto);
 }
