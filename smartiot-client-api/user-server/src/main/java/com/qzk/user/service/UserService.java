@@ -6,6 +6,8 @@ import com.qzk.user.domain.dto.RegisterDto;
 import com.qzk.user.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
 * @author qianzhikang
 * @description 针对表【t_user】的数据库操作Service
@@ -26,4 +28,11 @@ public interface UserService extends IService<User> {
      * @return result
      */
     RestResult<Object> addUser(RegisterDto registerDto);
+
+    /**
+     * 用户登出
+     * @param request 请求
+     * @return result
+     */
+    RestResult<Object> logout(HttpServletRequest request);
 }

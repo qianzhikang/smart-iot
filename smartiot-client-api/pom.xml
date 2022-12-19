@@ -31,6 +31,8 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- spring boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -39,6 +41,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- spring cloud -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -47,6 +50,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- spring cloud alibaba -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -55,12 +59,21 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- spring aop -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- web模块 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
+            <!-- 测试模块 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>

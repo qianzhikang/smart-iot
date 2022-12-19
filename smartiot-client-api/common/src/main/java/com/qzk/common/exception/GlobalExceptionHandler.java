@@ -59,6 +59,19 @@ public class GlobalExceptionHandler {
         return new RestResult().error(exception.getMessage());
     }
 
+    /**
+     * 认证异常
+     * @param exception 异常
+     * @return
+     */
+    @ExceptionHandler(value = AuthException.class)
+    public RestResult authException(AuthException exception){
+        log.error("error by {}",exception.getMessage());
+        return new RestResult().error(exception.getMessage());
+    }
+
+
+
     @ExceptionHandler(Exception.class)
     public RestResult otherException(Exception exception){
 

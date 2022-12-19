@@ -42,6 +42,10 @@ public class RestResult<T> {
         return new RestResult<>(RestCode.SUCCESS.getCode(), RestCode.SUCCESS.getMessage(), data);
     }
 
+    public RestResult<T> success(String msg,T data) {
+        return new RestResult<>(RestCode.SUCCESS.getCode(), msg, data);
+    }
+
     public RestResult<T> success(Integer code, String msg, T data) {
         return new RestResult<>(code, msg, data);
     }

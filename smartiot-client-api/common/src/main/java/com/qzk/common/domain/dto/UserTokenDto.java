@@ -1,4 +1,4 @@
-package com.qzk.user.domain.dto;
+package com.qzk.common.domain.dto;
 
 import com.qzk.common.redis.constant.RedisConst;
 import lombok.Data;

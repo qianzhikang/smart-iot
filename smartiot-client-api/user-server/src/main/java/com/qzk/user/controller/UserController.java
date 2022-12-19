@@ -1,5 +1,6 @@
 package com.qzk.user.controller;
 
+import com.qzk.common.auth.Authentication;
 import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.dto.LoginDto;
 import com.qzk.user.domain.dto.RegisterDto;
@@ -7,6 +8,7 @@ import com.qzk.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -38,5 +40,10 @@ public class UserController {
     }
 
 
+    @PostMapping("/logout")
+    @Authentication
+    public RestResult<Object> logout(HttpServletRequest request){
+        return userService.logout(request);
+    }
 
 }

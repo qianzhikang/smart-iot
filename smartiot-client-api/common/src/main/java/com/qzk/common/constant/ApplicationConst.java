@@ -1,4 +1,4 @@
-package com.qzk.user.constant;
+package com.qzk.common.constant;
 
 /**
  * @Description 应用常量
@@ -6,5 +6,8 @@ package com.qzk.user.constant;
  * @Author qianzhikang
  */
 public class ApplicationConst {
+    /**
+     * token密钥
+     */
     public static final String JWT_SECRET = "smartiotapp@20221217";
 }
