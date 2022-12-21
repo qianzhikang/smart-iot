@@ -20,4 +20,19 @@ public interface GroupService extends IService<Group> {
      * @return
      */
     RestResult create(HttpServletRequest request, String groupName);
+
+    /**
+     * 查询当前用户的用户组列表
+     * @param request 请求参数
+     * @return
+     */
+    RestResult findAll(HttpServletRequest request);
+
+    /**
+     * 删除用户组
+     * @param request 请求参数
+     * @param groupId 用户组id
+     * @return
+     */
+    RestResult remove(HttpServletRequest request, Integer groupId);
 }

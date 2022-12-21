@@ -24,6 +24,11 @@ public class UserController {
     private UserService userService;
 
 
+    /**
+     * 注册接口
+     * @param registerDto 注册参数
+     * @return result
+     */
     @PostMapping("/register")
     public RestResult<Object> register(@Valid @RequestBody RegisterDto registerDto){
         return userService.addUser(registerDto);
@@ -39,7 +44,11 @@ public class UserController {
         return userService.login(loginDto);
     }
 
-
+    /**
+     * 登出接口
+     * @param request 请求参数
+     * @return result
+     */
     @PostMapping("/logout")
     @Authentication
     public RestResult<Object> logout(HttpServletRequest request){

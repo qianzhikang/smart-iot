@@ -20,9 +20,38 @@ public class GroupController {
     @Resource
     private GroupService groupService;
 
+    /**
+     * 创建用户组
+     * @param request 请求参数
+     * @param groupName 组名
+     * @return
+     */
     @PostMapping("/create")
     @Authentication
     public RestResult createGroup(HttpServletRequest request, @RequestParam("groupName")String groupName){
         return groupService.create(request,groupName);
+    }
+
+    /**
+     * 获取所有用户组
+     * @param request 请求参数
+     * @return result
+     */
+    @GetMapping("/all")
+    @Authentication
+    public RestResult all(HttpServletRequest request){
+        return groupService.findAll(request);
+    }
+
+    /**
+     * 删除用户组
+     * @param request 请求参数
+     * @param groupId 用户组id
+     * @return
+     */
+    @PostMapping("/delete")
+    @Authentication
+    public RestResult remove(HttpServletRequest request,@RequestParam("groupId") Integer groupId){
+        return groupService.remove(request,groupId);
     }
 }
