@@ -4,14 +4,22 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
+ * @author qianzhikang
  * @TableName t_user_group
  */
 @TableName(value ="t_user_group")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserGroup implements Serializable {
     /**
      * 用户-组关联id

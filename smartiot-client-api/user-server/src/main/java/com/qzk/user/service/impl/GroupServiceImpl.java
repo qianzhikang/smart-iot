@@ -1,10 +1,22 @@
 package com.qzk.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qzk.common.exception.ApiException;
+import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.entity.Group;
+import com.qzk.user.domain.entity.UserGroup;
+import com.qzk.user.mapper.UserGroupMapper;
 import com.qzk.user.service.GroupService;
 import com.qzk.user.mapper.GroupMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author qianzhikang
@@ -15,6 +27,50 @@ import org.springframework.stereotype.Service;
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group>
     implements GroupService{
 
+    @Resource
+    private GroupMapper groupMapper;
+
+    @Resource
+    private UserGroupMapper userGroupMapper;
+
+    /**
+     * 创建用户组接口
+     *
+     * @param request      request请求
+     * @param groupName 传输dto
+     * @return result
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult<Object> create(HttpServletRequest request, String groupName) {
+        Integer id = (Integer) request.getAttribute("id");
+        Group group = Group.builder()
+                .groupName(groupName)
+                .ownerId(id)
+                .build();
+        try {
+            // 查询已存在的用户表，防止重复创建同名组
+            List<Group> results = groupMapper.selectList(new LambdaQueryWrapper<Group>().eq(Group::getOwnerId, id).eq(Group::getGroupName, groupName));
+            if (CollectionUtils.isEmpty(results)){
+                // 插入用户组表
+                int groupRow = groupMapper.insertAndReturnId(group);
+                Assert.isTrue(groupRow == 1,"创建失败");
+
+                // 插入用户组关系表
+                UserGroup userGroup = UserGroup.builder()
+                        .groupId(group.getId())
+                        .userId(id)
+                        .build();
+                int userGroupRow = userGroupMapper.insert(userGroup);
+                Assert.isTrue(userGroupRow == 1,"创建失败");
+                return new RestResult<>().success("创建成功");
+            }else {
+                return new RestResult<>().error("您已经拥有同名用户组！");
+            }
+        }catch (Exception e){
+            throw new ApiException(e.getMessage());
+        }
+    }
 }
 
 

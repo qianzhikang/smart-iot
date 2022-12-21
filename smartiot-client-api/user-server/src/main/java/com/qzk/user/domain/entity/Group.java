@@ -4,14 +4,22 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
+ * @author qianzhikang
  * @TableName t_group
  */
 @TableName(value ="t_group")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Group implements Serializable {
     /**
      * 用户组id
@@ -25,9 +33,9 @@ public class Group implements Serializable {
     private String groupName;
 
     /**
-     * 组内用户id
+     * 创建者id
      */
-    private Integer userId;
+    private Integer ownerId;
 
     /**
      * 创建时间

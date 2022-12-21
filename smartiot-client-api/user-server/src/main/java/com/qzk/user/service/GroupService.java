@@ -1,7 +1,10 @@
 package com.qzk.user.service;
 
+import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.entity.Group;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author qianzhikang
@@ -10,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface GroupService extends IService<Group> {
 
+    /**
+     * 创建用户组接口
+     * @param request request请求
+     * @param groupName 组名
+     * @return
+     */
+    RestResult create(HttpServletRequest request, String groupName);
 }

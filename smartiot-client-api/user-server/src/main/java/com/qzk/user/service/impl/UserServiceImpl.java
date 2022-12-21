@@ -17,6 +17,7 @@ import com.qzk.user.service.UserService;
 import com.qzk.user.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -77,6 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      * @return result
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RestResult<Object> addUser(RegisterDto registerDto) {
         try {
             User dbUser = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, registerDto.getPhone()));

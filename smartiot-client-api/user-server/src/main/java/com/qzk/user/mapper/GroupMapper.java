@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.qzk.user.domain.entity.Group
 */
 public interface GroupMapper extends BaseMapper<Group> {
-
+    Integer insertAndReturnId(Group group);
 }
 
 
