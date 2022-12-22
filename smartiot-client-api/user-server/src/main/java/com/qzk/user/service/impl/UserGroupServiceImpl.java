@@ -6,16 +6,19 @@ import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.entity.Group;
 import com.qzk.user.domain.entity.User;
 import com.qzk.user.domain.entity.UserGroup;
+import com.qzk.user.domain.vo.GroupMemberVo;
 import com.qzk.user.mapper.GroupMapper;
 import com.qzk.user.mapper.UserMapper;
 import com.qzk.user.service.UserGroupService;
 import com.qzk.user.mapper.UserGroupMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +61,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
             // 查询用户组成员，避免重复添加
             List<UserGroup> userGroups = userGroupMapper.selectList(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getGroupId, groupId));
             List<UserGroup> collect = userGroups.stream().filter(item -> item.getUserId().equals(memberId)).collect(Collectors.toList());
-            if (!CollectionUtils.isEmpty(collect)){
+            if (!CollectionUtils.isEmpty(collect)) {
                 return new RestResult<>().error("该用户已经在当前用户组中！");
             }
 
@@ -72,6 +75,37 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
         } else {
             return new RestResult<>().error("无法操作不存在或不属于自己的用户组！");
         }
+    }
+
+    /**
+     * 查询对应用户组的成员列表
+     *
+     * @param request 请求参数
+     * @param groupId 用户组id
+     * @return result
+     */
+    @Override
+    public RestResult memberList(HttpServletRequest request, Integer groupId) {
+        Integer id = (Integer) request.getAttribute("id");
+        // 查询关系表，取出所有组相关的记录
+        List<UserGroup> userGroups = userGroupMapper.selectList(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getGroupId, groupId));
+        if (!CollectionUtils.isEmpty(userGroups)) {
+            ArrayList<Integer> userIds = new ArrayList<>();
+            // 取出组中用户的id集合
+            userGroups.forEach(item -> userIds.add(item.getUserId()));
+            // 判断是否为组中用户
+            if (userIds.contains(id)) {
+                List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().in(User::getId, userIds));
+                // 封装返回数据
+                List<GroupMemberVo> result = users.stream().map(item -> {
+                    GroupMemberVo groupMemberVo = new GroupMemberVo();
+                    BeanUtils.copyProperties(item, groupMemberVo);
+                    return groupMemberVo;
+                }).collect(Collectors.toList());
+                return new RestResult<>().success(result);
+            }
+        }
+        return new RestResult<>().error("非组内成员，无法查看！");
     }
 }
 

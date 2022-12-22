@@ -56,7 +56,8 @@ public class GroupController {
      */
     @PostMapping("/delete")
     @Authentication
-    public RestResult remove(HttpServletRequest request,@RequestParam("groupId") Integer groupId){
+    public RestResult remove(HttpServletRequest request,
+                             @RequestParam("groupId") Integer groupId){
         return groupService.remove(request,groupId);
     }
 
@@ -69,7 +70,9 @@ public class GroupController {
      */
     @PostMapping("/edit")
     @Authentication
-    public RestResult audit(HttpServletRequest request,@RequestParam("groupId") Integer groupId,@RequestParam("groupName") String groupName){
+    public RestResult audit(HttpServletRequest request,
+                            @RequestParam("groupId") Integer groupId,
+                            @RequestParam("groupName") String groupName){
         return groupService.audit(request,groupId,groupName);
     }
 
@@ -83,7 +86,15 @@ public class GroupController {
      */
     @PostMapping("/add-member")
     @Authentication
-    public RestResult addMember(HttpServletRequest request,@RequestParam("groupId") Integer groupId,@RequestParam("memberId")Integer memberId){
+    public RestResult addMember(HttpServletRequest request,
+                                @RequestParam("groupId") Integer groupId,
+                                @RequestParam("memberId")Integer memberId){
         return userGroupService.addMember(request,groupId,memberId);
+    }
+
+    @GetMapping("/member-list")
+    @Authentication
+    public RestResult memberList(HttpServletRequest request,@RequestParam("groupId") Integer groupId){
+        return userGroupService.memberList(request,groupId);
     }
 }

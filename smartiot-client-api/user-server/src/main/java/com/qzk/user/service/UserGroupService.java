@@ -21,4 +21,12 @@ public interface UserGroupService extends IService<UserGroup> {
      * @return result
      */
     RestResult addMember(HttpServletRequest request, Integer groupId, Integer memberId);
+
+    /**
+     * 查询对应用户组的成员列表
+     * @param request 请求参数
+     * @param groupId 用户组id
+     * @return result
+     */
+    RestResult memberList(HttpServletRequest request, Integer groupId);
 }
