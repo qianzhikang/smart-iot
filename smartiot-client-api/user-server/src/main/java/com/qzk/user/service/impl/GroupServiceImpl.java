@@ -104,6 +104,28 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group>
         Assert.isTrue(userGroupRow >= 1,"无对应记录,删除用户组关系记录失败");
         return new RestResult<>().success("删除用户组成功！");
     }
+
+    /**
+     * 修改用户组名
+     *
+     * @param request   请求参数
+     * @param groupId   用户组id
+     * @param groupName 用户组名
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult audit(HttpServletRequest request, Integer groupId, String groupName) {
+        Integer id = (Integer)request.getAttribute("id");
+        Group group = groupMapper.selectById(groupId);
+        if (group != null && group.getOwnerId().equals(id)){
+            group.setGroupName(groupName);
+            groupMapper.update(group,new LambdaQueryWrapper<Group>().eq(Group::getId,groupId));
+            return new RestResult<>().success("修改成功");
+        }else {
+            return new RestResult<>().error("无法修改不存在或不属于自己的用户组");
+        }
+    }
 }
 
 

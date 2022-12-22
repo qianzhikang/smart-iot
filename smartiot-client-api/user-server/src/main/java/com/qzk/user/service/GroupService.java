@@ -35,4 +35,13 @@ public interface GroupService extends IService<Group> {
      * @return
      */
     RestResult remove(HttpServletRequest request, Integer groupId);
+
+    /**
+     * 修改用户组名
+     * @param request 请求参数
+     * @param groupId 用户组id
+     * @param groupName 用户组名
+     * @return
+     */
+    RestResult audit(HttpServletRequest request, Integer groupId, String groupName);
 }

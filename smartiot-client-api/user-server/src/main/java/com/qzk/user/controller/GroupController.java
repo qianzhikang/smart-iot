@@ -54,4 +54,17 @@ public class GroupController {
     public RestResult remove(HttpServletRequest request,@RequestParam("groupId") Integer groupId){
         return groupService.remove(request,groupId);
     }
+
+    /**
+     * 修改用户组名
+     * @param request 请求参数
+     * @param groupId 组id
+     * @param groupName 新组名
+     * @return
+     */
+    @PostMapping("/edit")
+    @Authentication
+    public RestResult audit(HttpServletRequest request,@RequestParam("groupId") Integer groupId,@RequestParam("groupName") String groupName){
+        return groupService.audit(request,groupId,groupName);
+    }
 }
