@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -106,6 +107,27 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
             }
         }
         return new RestResult<>().error("非组内成员，无法查看！");
+    }
+
+    /**
+     * 删除组内成员
+     *
+     * @param request  请求参数
+     * @param groupId  组id
+     * @param memberId 成员id
+     * @return result
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult removeMember(HttpServletRequest request, Integer groupId, Integer memberId) {
+        Integer id = (Integer) request.getAttribute("id");
+        Group group = groupMapper.selectById(groupId);
+        // 验证是否为用户组创建者
+        if (Objects.nonNull(group) && group.getOwnerId().equals(id)) {
+            userGroupMapper.delete(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getGroupId, groupId).eq(UserGroup::getUserId, memberId));
+            return new RestResult().success("删除成功！");
+        }
+        return new RestResult<>().error("无法操作不存在或不属于自己的用户组！");
     }
 }
 

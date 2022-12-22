@@ -29,4 +29,13 @@ public interface UserGroupService extends IService<UserGroup> {
      * @return result
      */
     RestResult memberList(HttpServletRequest request, Integer groupId);
+
+    /**
+     * 删除组内成员
+     * @param request 请求参数
+     * @param groupId 组id
+     * @param memberId 成员id
+     * @return result
+     */
+    RestResult removeMember(HttpServletRequest request, Integer groupId, Integer memberId);
 }
