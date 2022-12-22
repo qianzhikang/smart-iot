@@ -2,7 +2,9 @@ package com.qzk.user.controller;
 
 import com.qzk.common.auth.Authentication;
 import com.qzk.common.result.RestResult;
+import com.qzk.user.domain.entity.UserGroup;
 import com.qzk.user.service.GroupService;
+import com.qzk.user.service.UserGroupService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,9 @@ public class GroupController {
 
     @Resource
     private GroupService groupService;
+
+    @Resource
+    private UserGroupService userGroupService;
 
     /**
      * 创建用户组
@@ -66,5 +71,19 @@ public class GroupController {
     @Authentication
     public RestResult audit(HttpServletRequest request,@RequestParam("groupId") Integer groupId,@RequestParam("groupName") String groupName){
         return groupService.audit(request,groupId,groupName);
+    }
+
+
+    /**
+     * 添加用户组成员
+     * @param request 请求参数
+     * @param groupId 组id
+     * @param memberId 用户id
+     * @return
+     */
+    @PostMapping("/add-member")
+    @Authentication
+    public RestResult addMember(HttpServletRequest request,@RequestParam("groupId") Integer groupId,@RequestParam("memberId")Integer memberId){
+        return userGroupService.addMember(request,groupId,memberId);
     }
 }
