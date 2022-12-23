@@ -33,7 +33,9 @@ public class AuthAspect {
 
     @Around("@annotation(com.qzk.common.auth.Authentication)")
     public Object authentication(ProceedingJoinPoint point) throws Throwable {
-        checkToken();
+        if (!checkToken()) {
+            throw new AuthException("登陆已失效！");
+        }
         return point.proceed();
     }
 
