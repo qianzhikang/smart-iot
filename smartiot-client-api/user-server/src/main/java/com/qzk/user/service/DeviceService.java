@@ -21,4 +21,13 @@ public interface DeviceService extends IService<Device> {
      * @return RestResult
      */
     RestResult addDevice(HttpServletRequest request, DeviceDto deviceDto);
+
+    /**
+     * 删除设备
+     * @param request 请求信息
+     * @param roomId 场景id
+     * @param deviceId 设备id
+     * @return
+     */
+    RestResult removeDevice(HttpServletRequest request,Integer roomId,Integer deviceId);
 }
