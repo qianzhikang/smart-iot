@@ -8,6 +8,7 @@ import com.qzk.common.utils.JwtUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,7 @@ import java.util.Map;
  */
 @Component
 @Aspect
+@Order(1)
 public class AuthAspect {
 
     @Resource

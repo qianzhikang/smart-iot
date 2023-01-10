@@ -58,29 +58,17 @@
               </list>
             </option>
             <option name="needsComment" value="true" />
-            <option name="relativePackage" value="domain" />
+            <option name="relativePackage" value="domain.entity" />
             <option name="superClass" value="" />
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="Group" />
-                  <option name="tableName" value="t_group" />
+                  <option name="className" value="Device" />
+                  <option name="tableName" value="t_device" />
                 </TableUIInfo>
                 <TableUIInfo>
-                  <option name="className" value="Room" />
-                  <option name="tableName" value="t_room" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Type" />
-                  <option name="tableName" value="t_type" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="User" />
-                  <option name="tableName" value="t_user" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="UserGroup" />
-                  <option name="tableName" value="t_user_group" />
+                  <option name="className" value="DeviceRoom" />
+                  <option name="tableName" value="t_device_room" />
                 </TableUIInfo>
               </list>
             </option>

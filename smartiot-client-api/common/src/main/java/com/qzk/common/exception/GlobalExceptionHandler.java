@@ -26,6 +26,12 @@ public class GlobalExceptionHandler {
         return new RestResult().error(apiException.getMsg());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public RestResult illegalArgumentException(IllegalArgumentException illegalArgumentException){
+        log.error("error by {}",illegalArgumentException.getMessage());
+        return new RestResult().error(illegalArgumentException.getMessage());
+    }
+
     /**
      * 异常校验类型1
      * @param exception
@@ -84,5 +90,4 @@ public class GlobalExceptionHandler {
         log.error("请求方式错误");
         return new RestResult().error("请注意你的请求方式噢！");
     }
-
 }

@@ -1,0 +1,24 @@
+package com.qzk.user.service;
+
+import com.qzk.common.result.RestResult;
+import com.qzk.user.domain.dto.DeviceDto;
+import com.qzk.user.domain.entity.Device;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+* @author qianzhikang
+* @description 针对表【t_device】的数据库操作Service
+* @createDate 2023-01-09 16:10:56
+*/
+public interface DeviceService extends IService<Device> {
+
+    /**
+     * 添加设备
+     * @param deviceDto 设备信息
+     * @param request 请求信息
+     * @return RestResult
+     */
+    RestResult addDevice(HttpServletRequest request, DeviceDto deviceDto);
+}

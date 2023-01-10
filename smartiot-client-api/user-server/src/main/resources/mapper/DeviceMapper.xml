@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qzk.user.mapper.DeviceMapper">
+
+    <insert id="insertDeviceReturnId" useGeneratedKeys="true" keyProperty="id" parameterType="com.qzk.user.domain.entity.Device">
+        INSERT INTO t_device
+            (type_id,device_num,device_name,client_id,device_username,device_password,topic,device_status,create_time,update_time)
+        VALUES
+            (#{typeId},#{deviceNum},#{deviceName},#{clientId},#{deviceUsername},#{devicePassword},#{topic},#{deviceStatus},#{createTime},#{updateTime});
+
+    </insert>
+</mapper>
