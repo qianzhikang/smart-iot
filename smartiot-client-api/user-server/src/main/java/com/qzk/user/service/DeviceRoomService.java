@@ -1,7 +1,10 @@
 package com.qzk.user.service;
 
+import com.qzk.common.result.RestResult;
 import com.qzk.user.domain.entity.DeviceRoom;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author qianzhikang
@@ -10,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface DeviceRoomService extends IService<DeviceRoom> {
 
+    /**
+     * 查询当前场景下的所有设备信息
+     * @param request 请求信息
+     * @param roomId  场景id
+     * @return
+     */
+    RestResult getRoomDevices(HttpServletRequest request, Integer roomId);
 }

@@ -2,11 +2,13 @@ package com.qzk.user.controller;
 
 import com.qzk.common.auth.Authentication;
 import com.qzk.common.result.RestResult;
+import com.qzk.user.service.DeviceRoomService;
 import com.qzk.user.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 /**
  * @Description 场景控制器
@@ -19,6 +21,10 @@ public class RoomController {
 
     @Resource
     private RoomService roomService;
+
+
+    @Resource
+    private DeviceRoomService deviceRoomService;
 
     /**
      * 创建场景接口
@@ -63,6 +69,19 @@ public class RoomController {
                             @RequestParam("roomId") Integer roomId,
                             @RequestParam("roomName") String roomName){
         return roomService.auditRoom(request,roomId,roomName);
+    }
+
+
+    /**
+     * 查询此场景下的所有设备
+     * @param request 请求信息
+     * @param roomId  场景id
+     * @return
+     */
+    @GetMapping("/all-devices")
+    @Authentication
+    public RestResult allDevice(HttpServletRequest request,@PathParam("roomId") Integer roomId){
+        return deviceRoomService.getRoomDevices(request,roomId);
     }
 
 }
