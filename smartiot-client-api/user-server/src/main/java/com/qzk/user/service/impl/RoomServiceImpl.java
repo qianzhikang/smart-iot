@@ -3,19 +3,20 @@ package com.qzk.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qzk.common.result.RestResult;
+import com.qzk.user.domain.entity.DeviceRoom;
 import com.qzk.user.domain.entity.Group;
 import com.qzk.user.domain.entity.Room;
 import com.qzk.user.domain.entity.UserGroup;
-import com.qzk.user.mapper.GroupMapper;
-import com.qzk.user.mapper.UserGroupMapper;
+import com.qzk.user.mapper.*;
 import com.qzk.user.service.RoomService;
-import com.qzk.user.mapper.RoomMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author qianzhikang
@@ -33,6 +34,12 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room>
 
     @Resource
     private RoomMapper roomMapper;
+
+    @Resource
+    private DeviceRoomMapper deviceRoomMapper;
+
+    @Resource
+    private DeviceMapper deviceMapper;
 
     /**
      * 创建新场景
@@ -97,6 +104,37 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room>
             }
         }
         return new RestResult<>().error("无法修改不属于用户的场景！");
+    }
+
+    /**
+     * 删除场景信息
+     *
+     * @param request 请求参数
+     * @param roomId   场景id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult removeRoom(HttpServletRequest request, Integer roomId) {
+        Integer id = (Integer) request.getAttribute("id");
+        Room room = roomMapper.selectById(roomId);
+        Assert.notNull(room,"不存在的场景id！");
+        if (isOwner(room.getGroupId(),id)){
+            // 1.查询设备-场景关联表中，设备的id集合
+            List<DeviceRoom> deviceRooms = deviceRoomMapper.selectList(new LambdaQueryWrapper<DeviceRoom>().eq(DeviceRoom::getRoomId, roomId));
+            // 获取设备id集合
+            List<Integer> deviceIds = deviceRooms.stream().mapToInt(DeviceRoom::getDeviceId).boxed().collect(Collectors.toList());
+            // 2.删除设备表内对应设备id
+            int deviceRow = deviceMapper.deleteBatchIds(deviceIds);
+            Assert.isTrue(deviceRow == deviceIds.size(),"删除失败！");
+            // 3.删除设备场景关联表中的记录，按场景id删除
+            int deviceRoomRow = deviceRoomMapper.delete(new LambdaQueryWrapper<DeviceRoom>().eq(DeviceRoom::getRoomId, roomId));
+            Assert.isTrue(deviceRoomRow == deviceRow,"删除失败！");
+            // 4.删除场景表中对应id的记录
+            int roomRow = roomMapper.deleteById(roomId);
+            Assert.isTrue(roomRow == 1,"删除失败");
+        }
+        return new RestResult<>().success("删除成功！");
     }
 
 

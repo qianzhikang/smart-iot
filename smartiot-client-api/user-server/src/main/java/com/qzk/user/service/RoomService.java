@@ -38,4 +38,12 @@ public interface RoomService extends IService<Room> {
      * @return
      */
     RestResult auditRoom(HttpServletRequest request, Integer roomId, String roomName);
+
+    /**
+     * 删除场景信息
+     * @param request  请求参数
+     * @param roomId    场景id
+     * @return
+     */
+    RestResult removeRoom(HttpServletRequest request, Integer roomId);
 }

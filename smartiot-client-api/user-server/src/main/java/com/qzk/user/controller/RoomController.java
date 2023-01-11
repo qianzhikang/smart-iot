@@ -80,8 +80,23 @@ public class RoomController {
      */
     @GetMapping("/all-devices")
     @Authentication
-    public RestResult allDevice(HttpServletRequest request,@PathParam("roomId") Integer roomId){
+    public RestResult allDevice(HttpServletRequest request,
+                                @PathParam("roomId") Integer roomId){
         return deviceRoomService.getRoomDevices(request,roomId);
+    }
+
+
+    /**
+     * 删除场景
+     * @param request 请求信息
+     * @param rooId   场景id
+     * @return
+     */
+    @PostMapping("/remove")
+    @Authentication
+    public RestResult removeRoom(HttpServletRequest request,
+                                 @RequestParam("roomId") Integer rooId){
+        return roomService.removeRoom(request,rooId);
     }
 
 }
