@@ -1,7 +1,7 @@
 package com.qzk.user.service;
 
+import com.qzk.common.purview.domain.entity.Room;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.entity.Room;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;

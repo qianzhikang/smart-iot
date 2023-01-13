@@ -2,10 +2,11 @@ package com.qzk.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qzk.common.purview.domain.dto.DeviceDto;
+import com.qzk.common.purview.domain.entity.*;
+import com.qzk.common.purview.mapper.*;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.dto.DeviceDto;
-import com.qzk.user.domain.entity.*;
-import com.qzk.user.mapper.*;
+
 import com.qzk.user.service.DeviceService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -149,8 +150,6 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device>
 
         // 3.  判断结果 group 中的 ownerId 是否为当前 userId 即为该方法的返回值
         return group.getOwnerId().equals(userId);
-
-
     }
 }
 

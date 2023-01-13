@@ -1,9 +1,9 @@
 package com.qzk.user.controller;
 
 import com.qzk.common.auth.Authentication;
+import com.qzk.common.purview.domain.dto.LoginDto;
+import com.qzk.common.purview.domain.dto.RegisterDto;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.dto.LoginDto;
-import com.qzk.user.domain.dto.RegisterDto;
 import com.qzk.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 

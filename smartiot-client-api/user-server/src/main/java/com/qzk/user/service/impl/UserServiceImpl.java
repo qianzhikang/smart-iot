@@ -3,18 +3,20 @@ package com.qzk.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qzk.common.exception.ApiException;
+import com.qzk.common.purview.domain.dto.LoginDto;
+import com.qzk.common.purview.domain.dto.RegisterDto;
+import com.qzk.common.purview.domain.entity.User;
+import com.qzk.common.purview.domain.vo.LoginVo;
+import com.qzk.common.purview.mapper.UserMapper;
 import com.qzk.common.redis.TokenSaveRedisDao;
 import com.qzk.common.result.RestResult;
 import com.qzk.common.utils.JwtUtil;
 import com.qzk.common.utils.MD5Util;
 import com.qzk.common.constant.ApplicationConst;
-import com.qzk.user.domain.dto.LoginDto;
-import com.qzk.user.domain.dto.RegisterDto;
+
 import com.qzk.common.domain.dto.UserTokenDto;
-import com.qzk.user.domain.entity.User;
-import com.qzk.user.domain.vo.LoginVo;
+
 import com.qzk.user.service.UserService;
-import com.qzk.user.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

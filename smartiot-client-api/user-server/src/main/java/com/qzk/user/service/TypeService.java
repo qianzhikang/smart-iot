@@ -1,7 +1,7 @@
 package com.qzk.user.service;
 
-import com.qzk.user.domain.entity.Type;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qzk.common.purview.domain.entity.Type;
 
 /**
 * @author qianzhikang

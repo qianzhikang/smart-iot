@@ -1,9 +1,9 @@
 package com.qzk.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qzk.user.domain.entity.Type;
+import com.qzk.common.purview.domain.entity.Type;
+import com.qzk.common.purview.mapper.TypeMapper;
 import com.qzk.user.service.TypeService;
-import com.qzk.user.mapper.TypeMapper;
 import org.springframework.stereotype.Service;
 
 /**

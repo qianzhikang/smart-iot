@@ -3,12 +3,13 @@ package com.qzk.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qzk.common.exception.ApiException;
+import com.qzk.common.purview.domain.entity.Group;
+import com.qzk.common.purview.domain.entity.UserGroup;
+import com.qzk.common.purview.mapper.GroupMapper;
+import com.qzk.common.purview.mapper.UserGroupMapper;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.entity.Group;
-import com.qzk.user.domain.entity.UserGroup;
-import com.qzk.user.mapper.UserGroupMapper;
+
 import com.qzk.user.service.GroupService;
-import com.qzk.user.mapper.GroupMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

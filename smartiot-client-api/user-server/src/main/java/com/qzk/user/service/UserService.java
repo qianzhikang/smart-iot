@@ -1,9 +1,10 @@
 package com.qzk.user.service;
 
+import com.qzk.common.purview.domain.dto.LoginDto;
+import com.qzk.common.purview.domain.dto.RegisterDto;
+import com.qzk.common.purview.domain.entity.User;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.dto.LoginDto;
-import com.qzk.user.domain.dto.RegisterDto;
-import com.qzk.user.domain.entity.User;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;

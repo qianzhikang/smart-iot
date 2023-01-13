@@ -2,12 +2,13 @@ package com.qzk.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qzk.common.purview.domain.entity.DeviceRoom;
+import com.qzk.common.purview.domain.entity.Group;
+import com.qzk.common.purview.domain.entity.Room;
+import com.qzk.common.purview.domain.entity.UserGroup;
+import com.qzk.common.purview.mapper.*;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.entity.DeviceRoom;
-import com.qzk.user.domain.entity.Group;
-import com.qzk.user.domain.entity.Room;
-import com.qzk.user.domain.entity.UserGroup;
-import com.qzk.user.mapper.*;
+
 import com.qzk.user.service.RoomService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

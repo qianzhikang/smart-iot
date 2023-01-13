@@ -1,8 +1,9 @@
 package com.qzk.user.service;
 
+import com.qzk.common.purview.domain.dto.DeviceDto;
+import com.qzk.common.purview.domain.entity.Device;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.dto.DeviceDto;
-import com.qzk.user.domain.entity.Device;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;

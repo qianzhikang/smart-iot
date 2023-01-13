@@ -2,16 +2,17 @@ package com.qzk.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qzk.common.purview.domain.entity.DeviceRoom;
+import com.qzk.common.purview.domain.entity.Room;
+import com.qzk.common.purview.domain.entity.UserGroup;
+import com.qzk.common.purview.domain.vo.DeviceVo;
+import com.qzk.common.purview.mapper.DeviceMapper;
+import com.qzk.common.purview.mapper.DeviceRoomMapper;
+import com.qzk.common.purview.mapper.RoomMapper;
+import com.qzk.common.purview.mapper.UserGroupMapper;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.entity.DeviceRoom;
-import com.qzk.user.domain.entity.Room;
-import com.qzk.user.domain.entity.UserGroup;
-import com.qzk.user.domain.vo.DeviceVo;
-import com.qzk.user.mapper.DeviceMapper;
-import com.qzk.user.mapper.RoomMapper;
-import com.qzk.user.mapper.UserGroupMapper;
+
 import com.qzk.user.service.DeviceRoomService;
-import com.qzk.user.mapper.DeviceRoomMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import javax.annotation.Resource;

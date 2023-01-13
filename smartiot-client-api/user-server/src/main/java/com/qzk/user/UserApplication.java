@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScans;
  * @Author qianzhikang
  */
 @SpringBootApplication
-@MapperScan("com.qzk.user.mapper")
+@MapperScan("com.qzk.common.purview.mapper")
 @ComponentScan(basePackages = {"com.qzk.common","com.qzk.user"})
 public class UserApplication {
     public static void main(String[] args) {

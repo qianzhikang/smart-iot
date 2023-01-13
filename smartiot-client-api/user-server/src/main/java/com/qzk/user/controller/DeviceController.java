@@ -1,8 +1,8 @@
 package com.qzk.user.controller;
 
 import com.qzk.common.auth.Authentication;
+import com.qzk.common.purview.domain.dto.DeviceDto;
 import com.qzk.common.result.RestResult;
-import com.qzk.user.domain.dto.DeviceDto;
 import com.qzk.user.service.DeviceService;
 import org.springframework.web.bind.annotation.*;
 

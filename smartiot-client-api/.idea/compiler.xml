@@ -9,7 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
         <module name="user-server" />
+        <module name="led-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="auth" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

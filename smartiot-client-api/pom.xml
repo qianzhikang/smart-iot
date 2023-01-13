@@ -10,6 +10,7 @@
     <modules>
         <module>user-server</module>
         <module>common</module>
+        <module>led-server</module>
     </modules>
     <packaging>pom</packaging>
     <description>智能物联客户端API</description>
