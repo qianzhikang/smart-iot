@@ -1,16 +1,15 @@
 package com.qzk.common.purview.valid;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qzk.common.purview.domain.entity.Group;
-import com.qzk.common.purview.domain.entity.Room;
-import com.qzk.common.purview.domain.entity.UserGroup;
-import com.qzk.common.purview.mapper.GroupMapper;
-import com.qzk.common.purview.mapper.RoomMapper;
-import com.qzk.common.purview.mapper.UserGroupMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.qzk.common.purview.domain.entity.*;
+import com.qzk.common.purview.mapper.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -20,6 +19,13 @@ import java.util.List;
  */
 @Component
 public class ValidUser {
+
+    @Resource
+    private DeviceMapper deviceMapper;
+
+    @Resource
+    private DeviceRoomMapper deviceRoomMapper;
+
     @Resource
     private RoomMapper roomMapper;
 
@@ -28,6 +34,34 @@ public class ValidUser {
 
     @Resource
     private UserGroupMapper userGroupMapper;
+
+
+    /**
+     * 判断用户对设备的控制权限
+     * @param userId 用户id
+     * @param deviceId 设备id
+     * @return 权限正确返回设备信息，权限不足返回空
+     */
+    public Device canOperateDevice(Integer userId,Integer deviceId){
+        Device device = deviceMapper.selectById(deviceId);
+        Assert.notNull(device, "不存在该设备！");
+        /// 用户验证
+        // 查询关联表 取出 roomId
+        DeviceRoom deviceRoom = deviceRoomMapper.selectOne(new QueryWrapper<DeviceRoom>().eq("device_id", device.getId()));
+        Assert.notNull(deviceRoom,"该设备未绑定或无法识别！");
+        // 查询 room 取出 groupId
+        Room room = roomMapper.selectById(deviceRoom.getRoomId());
+        Assert.notNull(room,"该设备未绑定或无法识别！");
+        // 查询 user、group关联 取出 用户id集合
+        List<UserGroup> userGroups = userGroupMapper.selectList(new QueryWrapper<UserGroup>().eq("group_id", room.getGroupId()));
+        Assert.isTrue(!CollectionUtils.isEmpty(userGroups),"该设备未绑定或无法识别！");
+        // 遍历匹配结果集中灯userId，有一个匹配成功将返回true
+        if (userGroups.stream().anyMatch(item -> item.getUserId().equals(userId))) {
+          return device;
+        }
+        return null;
+    }
+
 
     /**
      * 是否拥有修改权限（当前用户是否属于对应的用户组）
