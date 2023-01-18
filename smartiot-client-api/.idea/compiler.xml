@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
+        <module name="dh11-server" />
         <module name="user-server" />
         <module name="led-server" />
       </profile>

@@ -9,6 +9,7 @@ import com.qzk.led.emqx.dto.LedInfo;
 import com.qzk.led.emqx.util.LedUtils;
 import com.qzk.led.service.LedOperateService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Author qianzhikang
  */
 @Slf4j
+@Service
 public class LedOperateServiceImpl implements LedOperateService {
 
     @Resource
@@ -31,6 +33,7 @@ public class LedOperateServiceImpl implements LedOperateService {
      * led灯控制
      *
      * @param ledControlDto led灯信息
+     * @param request 请求信息
      * @return RestResult
      */
     @Override

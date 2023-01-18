@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2023-01-13-14-22
  * @Author qianzhikang
  */
-@Service
 public interface LedOperateService {
     /**
      * led灯控制
      * @param ledControlDto led灯信息
-     * @return
+     * @param request 请求信息
+     * @return RestResult
      */
     RestResult ledControl(HttpServletRequest request,LedControlDto ledControlDto);
 }

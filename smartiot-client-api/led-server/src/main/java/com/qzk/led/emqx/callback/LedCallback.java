@@ -36,7 +36,9 @@ public class LedCallback implements MqttCallback {
     public void connectionLost(Throwable cause) {
         // 连接丢失后，一般在这里面进行重连
         log.info("连接断开，可以做重连");
-        ledUtil.connect(username,password);
+        if (ledUtil.isConnect()){
+            ledUtil.connect(username,password);
+        }
     }
 
     public void messageArrived(String topic, MqttMessage message) throws Exception {
