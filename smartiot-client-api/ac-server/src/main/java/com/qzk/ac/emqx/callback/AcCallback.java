@@ -1,6 +1,6 @@
-package com.qzk.led.emqx.callback;
+package com.qzk.ac.emqx.callback;
 
-import com.qzk.led.emqx.util.LedUtils;
+import com.qzk.ac.emqx.util.AcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * @Description led灯的emqx回调
- * @Date 2023-01-11-14-51
+ * @Description AC控制器回调
+ * @Date 2023-01-19-13-40
  * @Author qianzhikang
  */
 @Component
 @Slf4j
-public class LedCallback implements MqttCallback {
+public class AcCallback implements MqttCallback {
+
     private String username;
     private String password;
 
@@ -31,13 +32,13 @@ public class LedCallback implements MqttCallback {
 
     @Lazy
     @Resource
-    private LedUtils ledUtil;
+    private AcUtils acUtils;
 
     public void connectionLost(Throwable cause) {
         // 连接丢失后，一般在这里面进行重连
         log.warn("连接断开，可以做重连");
-        if (ledUtil.isConnect()){
-            ledUtil.connect(username,password);
+        if (!acUtils.isConnect()){
+            acUtils.connect(username,password);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.qzk.led.emqx.client;
+package com.qzk.ac.emqx.client;
 
 import com.qzk.common.constant.EmqxConst;
 import lombok.extern.slf4j.Slf4j;
@@ -9,24 +9,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Description emqx服务器连接led客户端
- * @Date 2023-01-11-14-37
+ * @Description emqx服务器连接AC控制器客户端
+ * @Date 2023-01-19-13-35
  * @Author qianzhikang
  */
 @Configuration
 @Slf4j
-public class LedClient {
+public class AcClient {
+
     /**
-     * 获取LED客户端（单例）
+     * 获取AC客户端（单例）
      * @return EMQX客户端
      */
     @Bean
-    public MqttClient getLedClient(){
+    public MqttClient getAcClient(){
         MemoryPersistence persistence = new MemoryPersistence();
         try {
             return new MqttClient(EmqxConst.BROKER,EmqxConst.LED_API_CLIENT_ID,persistence);
         }catch (MqttException e){
-            log.warn(e.getMessage());
+            log.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }

@@ -59,11 +59,9 @@ public class LedOperateServiceImpl implements LedOperateService {
      */
     private void ledOperate(Device device, String ledModel) {
         LedInfo ledInfo = LedInfo.builder().ledNum(device.getDeviceNum()).ledModel(ledModel).build();
-        log.info(ledInfo.toString());
         if (!ledUtils.isConnect()) {
             ledUtils.connect(device.getDeviceUsername(), device.getDevicePassword());
         }
-        log.info(JSON.toJSONString(ledInfo));
         ledUtils.publish(device.getTopic(), JSON.toJSONString(ledInfo));
     }
 }
