@@ -1,12 +1,16 @@
 package com.qzk.user.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qzk.common.exception.ApiException;
 import com.qzk.common.purview.domain.dto.LoginDto;
 import com.qzk.common.purview.domain.dto.RegisterDto;
+import com.qzk.common.purview.domain.dto.UserInfoDto;
 import com.qzk.common.purview.domain.entity.User;
 import com.qzk.common.purview.domain.vo.LoginVo;
+import com.qzk.common.purview.domain.vo.UserInfoVo;
 import com.qzk.common.purview.mapper.UserMapper;
 import com.qzk.common.redis.TokenSaveRedisDao;
 import com.qzk.common.result.RestResult;
@@ -57,8 +61,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 UserTokenDto userTokenDto = new UserTokenDto(user.getId());
                 String token = JwtUtil.generateJwt(ApplicationConst.JWT_SECRET, userTokenDto.toMap());
                 tokenSaveRedisDao.saveToken(user.getId(), token);
-                return new RestResult<>().success("登陆成功", LoginVo.builder().
-                        name(user.getName()).
+                return new RestResult<>().success("登陆成功", LoginVo.builder()
+                        .userId(user.getId())
+                        .name(user.getName()).
                         phone(user.getPhone())
                         .avatar(user.getAvatar())
                         .gender(user.getGender())
@@ -109,6 +114,77 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         Integer id = (Integer) request.getAttribute("id");
         tokenSaveRedisDao.removeToken(id);
         return new RestResult<>().success("已登出");
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param userId 用户id
+     * @return result
+     */
+    @Override
+    public RestResult<Object> getUserInfo(HttpServletRequest request, Integer userId) {
+        Integer id = (Integer) request.getAttribute("id");
+        Assert.isTrue(id.equals(userId), "非法获取信息");
+
+        User user = userMapper.selectById(id);
+        Assert.notNull(user, "用户不存在");
+        return new RestResult<>().success(UserInfoVo.builder().
+                name(user.getName()).
+                phone(user.getPhone())
+                .avatar(user.getAvatar())
+                .gender(user.getGender())
+                .birth(user.getBirth())
+                .build());
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param request     请求域
+     * @param userInfoDto 用户信息
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult<Object> auditUserInfo(HttpServletRequest request, UserInfoDto userInfoDto) {
+        Integer id = (Integer) request.getAttribute("id");
+        Assert.isTrue(id.equals(userInfoDto.getUserId()), "不能修改非本人信息");
+        // 2. 按id查询用户信息
+        User user = userMapper.selectById(id);
+        Assert.notNull(user, "用户不存在或已被禁用");
+        // 3. 将修改的信息赋值给user对象
+        BeanUtil.copyProperties(userInfoDto, user, CopyOptions.create().ignoreNullValue());
+        // 4. 更新数据库
+        userMapper.updateById(user);
+        return new RestResult<>().success("修改成功");
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param request 请求域
+     * @param oldPsw  老密码
+     * @param newPsw  新密码
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public RestResult<Object> auditPsw(HttpServletRequest request,Integer userId ,String oldPsw, String newPsw) {
+        Integer id = (Integer) request.getAttribute("id");
+        Assert.isTrue(id.equals(userId), "不能修改非本人信息");
+        // 2. 按id查询用户信息，校验密码
+        User user = userMapper.selectById(id);
+        Assert.notNull(user, "用户不存在或已被禁用");
+        String oldSaltPsw = MD5Util.getMD5Ciphertext(oldPsw, user.getSalt());
+        Assert.isTrue(oldSaltPsw.equals(user.getPassword()),"旧密码错误");
+
+        // 3. 新密码加密入库
+        String newSaltPsw = MD5Util.getMD5Ciphertext(newPsw, user.getSalt());
+        user.setPassword(newSaltPsw);
+        int row = userMapper.updateById(user);
+        Assert.isTrue(row == 1,"修改失败");
+        return new RestResult<>().success("修改成功");
     }
 }
 

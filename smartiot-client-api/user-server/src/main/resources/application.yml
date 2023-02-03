@@ -5,6 +5,10 @@ server:
 
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   jackson:
     default-property-inclusion: always
     time-zone: GMT+8
@@ -37,5 +41,15 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
-
 #debug: true
+
+# MinIO配置
+minio:
+  # 服务端ip
+  endpoint: http://47.113.216.179:9000
+  # 图片bucket
+  bucket: smart-iot
+  # 访问用户名
+  access-key: minioadmin
+  # 访问密码
+  secret-key: minioadmin

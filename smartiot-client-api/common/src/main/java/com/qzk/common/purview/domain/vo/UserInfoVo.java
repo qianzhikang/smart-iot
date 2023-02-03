@@ -8,19 +8,15 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @Description 登陆返回信息
- * @Date 2022-12-19-15-25
+ * @Description 用户信息返回类
+ * @Date 2023-02-03-14-05
  * @Author qianzhikang
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginVo {
-    /**
-     * userId
-     */
-    private Integer userId;
+public class UserInfoVo {
     /**
      * 用户名
      */
@@ -45,9 +41,4 @@ public class LoginVo {
      * 出生年月
      */
     private Date birth;
-
-    /**
-     * token
-     */
-    private String token;
 }
