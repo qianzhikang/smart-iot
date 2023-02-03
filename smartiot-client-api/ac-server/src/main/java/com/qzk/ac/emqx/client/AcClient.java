@@ -25,7 +25,7 @@ public class AcClient {
     public MqttClient getAcClient(){
         MemoryPersistence persistence = new MemoryPersistence();
         try {
-            return new MqttClient(EmqxConst.BROKER,EmqxConst.LED_API_CLIENT_ID,persistence);
+            return new MqttClient(EmqxConst.BROKER,EmqxConst.AC_API_CLIENT_ID,persistence);
         }catch (MqttException e){
             log.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
