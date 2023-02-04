@@ -13,6 +13,7 @@
         <module>led-server</module>
         <module>dh11-server</module>
         <module>ac-server</module>
+        <module>gateway-server</module>
     </modules>
     <packaging>pom</packaging>
     <description>智能物联客户端API</description>
@@ -30,6 +31,7 @@
         <mysql.connect.version>8.0.31</mysql.connect.version>
         <mybatis.plus.version>3.5.2</mybatis.plus.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <components.version>3.1.1</components.version>
     </properties>
 
     <dependencyManagement>
@@ -110,6 +112,46 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
+            </dependency>
+
+
+            <!--nacos注册发现-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
+
+
+            <!--nacos远程配置-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
+
+
+            <!--启动读取远程配置-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>${components.version}</version>
+            </dependency>
+
+
+            <!--负载均衡-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+                <version>${components.version}</version>
+            </dependency>
+
+
+            <!--网关服务-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${components.version}</version>
             </dependency>
 
         </dependencies>

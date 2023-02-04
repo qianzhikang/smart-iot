@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 9999
 
 spring:
   cloud:
@@ -12,3 +12,4 @@ spring:
         register-enabled: true
       username: nacos
       password: nacos
+
