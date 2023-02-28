@@ -9,8 +9,10 @@ import com.qzk.common.purview.domain.dto.LoginDto;
 import com.qzk.common.purview.domain.dto.RegisterDto;
 import com.qzk.common.purview.domain.dto.UserInfoDto;
 import com.qzk.common.purview.domain.entity.User;
+import com.qzk.common.purview.domain.entity.UserGroup;
 import com.qzk.common.purview.domain.vo.LoginVo;
 import com.qzk.common.purview.domain.vo.UserInfoVo;
+import com.qzk.common.purview.mapper.UserGroupMapper;
 import com.qzk.common.purview.mapper.UserMapper;
 import com.qzk.common.redis.TokenSaveRedisDao;
 import com.qzk.common.result.RestResult;
@@ -28,6 +30,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author qianzhikang
@@ -40,6 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private UserGroupMapper userGroupMapper;
 
     @Resource
     private TokenSaveRedisDao tokenSaveRedisDao;
@@ -57,19 +63,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             Assert.notNull(user, "用户不存在!");
             String salt = user.getSalt();
             String password = loginDto.getPassword();
+
+            // 查询用户所在的用户组
+            List<UserGroup> userGroups = userGroupMapper.selectList(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getUserId, user.getId()));
             if (user.getPassword().equals(MD5Util.getMD5Ciphertext(password, salt))) {
                 UserTokenDto userTokenDto = new UserTokenDto(user.getId());
                 String token = JwtUtil.generateJwt(ApplicationConst.JWT_SECRET, userTokenDto.toMap());
                 tokenSaveRedisDao.saveToken(user.getId(), token);
-                return new RestResult<>().success("登陆成功", LoginVo.builder()
-                        .userId(user.getId())
-                        .name(user.getName()).
-                        phone(user.getPhone())
-                        .avatar(user.getAvatar())
-                        .gender(user.getGender())
-                        .birth(user.getBirth())
-                        .token(token)
-                        .build());
+                LoginVo loginVo = new LoginVo();
+                loginVo.setUserId(user.getId());
+                loginVo.setName(user.getName());
+                loginVo.setPhone(user.getPhone());
+                loginVo.setAvatar(user.getAvatar());
+                loginVo.setGender(user.getGender());
+                loginVo.setBirth(user.getBirth());
+                loginVo.setToken(token);
+                if (!userGroups.isEmpty()){
+                    loginVo.setGroupId(userGroups.get(0).getGroupId());
+                }
+                return new RestResult<>().success("登陆成功",loginVo);
             } else {
                 return new RestResult<>().error("密码错误");
             }
@@ -170,20 +182,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RestResult<Object> auditPsw(HttpServletRequest request,Integer userId ,String oldPsw, String newPsw) {
+    public RestResult<Object> auditPsw(HttpServletRequest request, Integer userId, String oldPsw, String newPsw) {
         Integer id = (Integer) request.getAttribute("id");
         Assert.isTrue(id.equals(userId), "不能修改非本人信息");
         // 2. 按id查询用户信息，校验密码
         User user = userMapper.selectById(id);
         Assert.notNull(user, "用户不存在或已被禁用");
         String oldSaltPsw = MD5Util.getMD5Ciphertext(oldPsw, user.getSalt());
-        Assert.isTrue(oldSaltPsw.equals(user.getPassword()),"旧密码错误");
+        Assert.isTrue(oldSaltPsw.equals(user.getPassword()), "旧密码错误");
 
         // 3. 新密码加密入库
         String newSaltPsw = MD5Util.getMD5Ciphertext(newPsw, user.getSalt());
         user.setPassword(newSaltPsw);
         int row = userMapper.updateById(user);
-        Assert.isTrue(row == 1,"修改失败");
+        Assert.isTrue(row == 1, "修改失败");
         return new RestResult<>().success("修改成功");
     }
 }

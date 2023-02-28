@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author qianzhikang
@@ -81,8 +82,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group>
     public RestResult findAll(HttpServletRequest request) {
         try {
             Integer id = (Integer) request.getAttribute("id");
-            List<Group> groups = groupMapper.selectList(new LambdaQueryWrapper<Group>().eq(Group::getOwnerId, id));
-            return new RestResult<>().success(groups);
+            //List<Group> groups = groupMapper.selectList(new LambdaQueryWrapper<Group>().eq(Group::getOwnerId, id));
+            List<UserGroup> userGroups = userGroupMapper.selectList(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getUserId, id));
+            List<Integer> groupIdCollect = userGroups.stream().mapToInt(UserGroup::getGroupId).boxed().collect(Collectors.toList());
+            List<Group> groupCollect = groupMapper.selectList(new LambdaQueryWrapper<Group>().in(Group::getId, groupIdCollect));
+            return new RestResult<>().success(groupCollect);
         }catch (Exception e){
             throw new ApiException(e.getMessage());
         }

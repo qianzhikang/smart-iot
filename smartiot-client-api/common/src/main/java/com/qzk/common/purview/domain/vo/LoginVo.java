@@ -13,9 +13,6 @@ import java.util.Date;
  * @Author qianzhikang
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class LoginVo {
     /**
      * userId
@@ -50,4 +47,9 @@ public class LoginVo {
      * token
      */
     private String token;
+
+    /**
+     * 默认用户组id
+     */
+    private Integer groupId;
 }

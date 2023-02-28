@@ -15,6 +15,7 @@ import com.qzk.user.service.UserGroupService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -47,29 +48,29 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
      *
      * @param request  请求参数
      * @param groupId  用户组id
-     * @param memberId 用户id
+     * @param phone 用户手机
      * @return result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RestResult addMember(HttpServletRequest request, Integer groupId, Integer memberId) {
+    public RestResult addMember(HttpServletRequest request, Integer groupId, String phone) {
         // 取出用户id
         Integer id = (Integer) request.getAttribute("id");
         Group group = groupMapper.selectById(groupId);
         // 确保用户组存在且修改者为用户组创建者本人
         if (group != null && group.getOwnerId().equals(id)) {
-            User user = userMapper.selectById(memberId);
-
+            User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone,phone));
+            Assert.notNull(user,"用户不存在！");
             // 查询用户组成员，避免重复添加
             List<UserGroup> userGroups = userGroupMapper.selectList(new LambdaQueryWrapper<UserGroup>().eq(UserGroup::getGroupId, groupId));
-            List<UserGroup> collect = userGroups.stream().filter(item -> item.getUserId().equals(memberId)).collect(Collectors.toList());
+            List<UserGroup> collect = userGroups.stream().filter(item -> item.getUserId().equals(user.getId())).collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(collect)) {
                 return new RestResult<>().error("该用户已经在当前用户组中！");
             }
 
             // 确保被添加的用户存在且不是自己
             if (user != null && !user.getId().equals(id)) {
-                int row = userGroupMapper.insert(UserGroup.builder().groupId(groupId).userId(memberId).build());
+                int row = userGroupMapper.insert(UserGroup.builder().groupId(groupId).userId(user.getId()).build());
                 return row == 1 ? new RestResult<>().success("添加成功") : new RestResult<>().error("添加失败");
             } else {
                 return new RestResult<>().error("无法添加自己或不存在的用户！");

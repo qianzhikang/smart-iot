@@ -17,10 +17,10 @@ public interface UserGroupService extends IService<UserGroup> {
      * 添加用户组成员
      * @param request 请求参数
      * @param groupId 用户组id
-     * @param memberId 用户id
+     * @param phone 用户id
      * @return result
      */
-    RestResult addMember(HttpServletRequest request, Integer groupId, Integer memberId);
+    RestResult addMember(HttpServletRequest request, Integer groupId, String phone);
 
     /**
      * 查询对应用户组的成员列表

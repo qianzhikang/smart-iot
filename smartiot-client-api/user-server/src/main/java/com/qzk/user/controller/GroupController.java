@@ -80,15 +80,15 @@ public class GroupController {
      * 添加用户组成员
      * @param request 请求参数
      * @param groupId 组id
-     * @param memberId 用户id
+     * @param phone 用户手机号
      * @return
      */
     @PostMapping("/add-member")
     @Authentication
     public RestResult addMember(HttpServletRequest request,
                                 @RequestParam("groupId") Integer groupId,
-                                @RequestParam("memberId")Integer memberId){
-        return userGroupService.addMember(request,groupId,memberId);
+                                @RequestParam("phone")String phone){
+        return userGroupService.addMember(request,groupId,phone);
     }
 
     /**
